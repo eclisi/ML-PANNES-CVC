@@ -1,0 +1,158 @@
+========================================================================
+  RAPPORT PREVISIONS PANNES CVC — SEMAINE DU 02 AU 06 JUIN 2026
+  Hopital — Service Maintenance Technique
+========================================================================
+  Modele : Random Forest (100 arbres, accuracy 94.4%)
+  Source : mesures_semaine.xlsx
+  Date generation : 05/06/2026 19:44
+  Contexte : Semaine calme, debut surveillance
+  Seuil ALARME : probabilite > 50%
+  Seuil CRITIQUE : probabilite > 80%
+========================================================================
+
+------------------------------------------------------------------------
+  RESUME EXECUTIF
+------------------------------------------------------------------------
+  Total mesures : 50
+  CRITIQUE (defaut probable > 80%) : 7 mesures
+  ALARME   (defaut possible 50-80%) : 0 mesures
+  VIGILANCE (20-50%)               : 3 mesures
+  OK       (< 20%)                  : 40 mesures
+
+  --- ALERTES CRITIQUES ---
+  CVC-005 | Compresseur chambre froide pharmacie | Mardi | T=48.8 vib=4.00 | DEFAUT PROBABLE 92%
+  CVC-005 | Compresseur chambre froide pharmacie | Vendredi | T=51.7 vib=3.87 | DEFAUT PROBABLE 91%
+  CVC-007 | Ventilateur extraction cuisine | Lundi | T=46.9 vib=5.03 | DEFAUT PROBABLE 91%
+  CVC-007 | Ventilateur extraction cuisine | Mardi | T=50.8 vib=5.01 | DEFAUT PROBABLE 89%
+  CVC-007 | Ventilateur extraction cuisine | Mercredi | T=45.6 vib=5.31 | DEFAUT PROBABLE 91%
+  CVC-007 | Ventilateur extraction cuisine | Jeudi | T=53.7 vib=5.24 | DEFAUT PROBABLE 91%
+  CVC-007 | Ventilateur extraction cuisine | Vendredi | T=50.6 vib=5.57 | DEFAUT PROBABLE 89%
+
+  --- ALERTES MOYENNES ---
+
+
+------------------------------------------------------------------------
+  DETAIL PAR EQUIPEMENT
+------------------------------------------------------------------------
+
+  CVC-001 : Ventilateur CTA Bloc Operatoire
+  Jour            Temp(C)    Vib(mm/s)       Heures      Age Prob(%%) NIVEAU
+  ------------ ---------- ------------ ------------ -------- -------- ---------
+  Lundi              38.5         1.32        18503       14        1 OK
+  Mardi              39.8         1.23        18521       14        1 OK
+  Mercredi           40.8         0.98        18537       14        0 OK
+  Jeudi              42.1         1.22        18549       14        1 OK
+  Vendredi           37.3         2.31        18570       14        0 OK
+  TENDANCE : NORMAL
+
+  CVC-002 : Compresseur Groupe Froid
+  Jour            Temp(C)    Vib(mm/s)       Heures      Age Prob(%%) NIVEAU
+  ------------ ---------- ------------ ------------ -------- -------- ---------
+  Lundi              40.6         2.03         8002        6        0 OK
+  Mardi              41.2         2.28         8023        6        0 OK
+  Mercredi           40.8         1.48         8035        6        1 OK
+  Jeudi              37.3         1.53         8054        6        5 OK
+  Vendredi           37.1         1.89         8069        6        2 OK
+  TENDANCE : NORMAL
+
+  CVC-003 : Pompe circuit primaire chauffage
+  Jour            Temp(C)    Vib(mm/s)       Heures      Age Prob(%%) NIVEAU
+  ------------ ---------- ------------ ------------ -------- -------- ---------
+  Lundi              32.6         1.90        12000        9        3 OK
+  Mardi              37.1         2.60        12016        9        4 OK
+  Mercredi           39.1         2.07        12038        9        3 OK
+  Jeudi              36.7         2.04        12048        9        4 OK
+  Vendredi           34.8         2.06        12070        9        3 OK
+  TENDANCE : NORMAL
+
+  CVC-004 : Ventilateur double flux urgences
+  Jour            Temp(C)    Vib(mm/s)       Heures      Age Prob(%%) NIVEAU
+  ------------ ---------- ------------ ------------ -------- -------- ---------
+  Lundi              39.0         1.16         3007        2        2 OK
+  Mardi              43.7         1.63         3019        2        0 OK
+  Mercredi           40.5         0.98         3035        2        0 OK
+  Jeudi              35.8         0.92         3048        2        3 OK
+  Vendredi           40.0         1.08         3069        2        1 OK
+  TENDANCE : NORMAL
+
+  CVC-005 : Compresseur chambre froide pharmacie
+  Jour            Temp(C)    Vib(mm/s)       Heures      Age Prob(%%) NIVEAU
+  ------------ ---------- ------------ ------------ -------- -------- ---------
+  Lundi              45.9         3.58        15007       11       50 VIGILANCE
+  Mardi              48.8         4.00        15019       11       92 CRITIQUE
+  Mercredi           43.3         3.42        15034       11       22 VIGILANCE
+  Jeudi              41.5         3.48        15056       11       25 VIGILANCE
+  Vendredi           51.7         3.87        15070       11       91 CRITIQUE
+  TENDANCE : AGGRAVATION (50% -> 91%)
+
+  CVC-006 : Pompe refroidissement IRM
+  Jour            Temp(C)    Vib(mm/s)       Heures      Age Prob(%%) NIVEAU
+  ------------ ---------- ------------ ------------ -------- -------- ---------
+  Lundi              33.9         0.34         5004        4        2 OK
+  Mardi              35.1         0.65         5020        4        0 OK
+  Mercredi           39.4         0.93         5035        4        1 OK
+  Jeudi              36.6         1.14         5051        4        4 OK
+  Vendredi           35.5         1.03         5066        4        0 OK
+  TENDANCE : NORMAL
+
+  CVC-007 : Ventilateur extraction cuisine
+  Jour            Temp(C)    Vib(mm/s)       Heures      Age Prob(%%) NIVEAU
+  ------------ ---------- ------------ ------------ -------- -------- ---------
+  Lundi              46.9         5.03        16004       12       91 CRITIQUE
+  Mardi              50.8         5.01        16021       12       89 CRITIQUE
+  Mercredi           45.6         5.31        16038       12       91 CRITIQUE
+  Jeudi              53.7         5.24        16050       12       91 CRITIQUE
+  Vendredi           50.6         5.57        16069       12       89 CRITIQUE
+  TENDANCE : Stable ou amelioration
+
+  CVC-008 : Compresseur climatisation consultation
+  Jour            Temp(C)    Vib(mm/s)       Heures      Age Prob(%%) NIVEAU
+  ------------ ---------- ------------ ------------ -------- -------- ---------
+  Lundi              44.8         2.01         7001        5        3 OK
+  Mardi              31.7         1.45         7023        5        1 OK
+  Mercredi           41.6         1.53         7035        5        2 OK
+  Jeudi              38.4         1.17         7052        5        5 OK
+  Vendredi           39.9         1.60         7070        5        2 OK
+  TENDANCE : NORMAL
+
+  CVC-009 : Pompe secondaire reseau ECS
+  Jour            Temp(C)    Vib(mm/s)       Heures      Age Prob(%%) NIVEAU
+  ------------ ---------- ------------ ------------ -------- -------- ---------
+  Lundi              44.3         2.22        14004       10        0 OK
+  Mardi              42.8         2.59        14020       10        0 OK
+  Mercredi           43.4         2.48        14034       10        0 OK
+  Jeudi              48.0         2.39        14048       10        1 OK
+  Vendredi           41.2         2.87        14072       10        0 OK
+  TENDANCE : NORMAL
+
+  CVC-010 : Ventilateur soufflage sterilisation
+  Jour            Temp(C)    Vib(mm/s)       Heures      Age Prob(%%) NIVEAU
+  ------------ ---------- ------------ ------------ -------- -------- ---------
+  Lundi              43.6         1.69         4501        3        0 OK
+  Mardi              40.0         1.32         4517        3        0 OK
+  Mercredi           41.9         1.13         4540        3        1 OK
+  Jeudi              38.7         1.18         4551        3        2 OK
+  Vendredi           35.5         1.22         4569        3        0 OK
+  TENDANCE : NORMAL
+
+
+------------------------------------------------------------------------
+  RECOMMANDATIONS
+------------------------------------------------------------------------
+
+  1. CVC-005 (Compresseur chambre froide pharmacie)
+     PRIORITE : URGENTE — intervention sous 24h
+     Probabilite max : 92% (Mardi)
+     Type probable : DESEQUILIBRE
+     Action : equilibrage + alignement
+
+  2. CVC-007 (Ventilateur extraction cuisine)
+     PRIORITE : URGENTE — intervention sous 24h
+     Probabilite max : 91% (Lundi)
+     Type probable : DESEQUILIBRE
+     Action : equilibrage + alignement
+
+
+========================================================================
+  FIN RAPPORT
+========================================================================

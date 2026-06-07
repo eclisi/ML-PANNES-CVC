@@ -1,0 +1,189 @@
+================================================================================
+DATASET PANNES CVC — Description des colonnes
+Fichier : pannes_cvc.xlsx
+Chemin : C:\dll\MATLABSCRIPT\ML-PANNES-CVC\pannes_cvc.xlsx
+800 observations — 3 ans de maintenance CVC hospitaliere
+================================================================================
+
+COLONNE 1 : Temperature_C
+--------------------------------------------------------------------------------
+Type      : numerique (float)
+Unite     : degres Celsius (°C)
+Plage     : 25.2 a 74.9
+Moyenne   : 52.9 °C
+Role      : FEATURE (entree du modele)
+
+Description :
+Temperature de fonctionnement mesuree sur le moteur CVC (ventilateur,
+compresseur ou pompe). Mesuree par sonde PT100 ou thermocouple sur le
+carter ou les bobinages.
+
+Interpretation par seuil :
+  - 25-45 °C  : regime normal (salle technique climatisee)
+  - 45-55 °C  : zone de vigilance (charge elevee, ventilateur obstrue)
+  - 55-65 °C  : surchauffe probable (defaut ventilation, filtre bouche)
+  - > 65 °C   : surchauffe critique (arret imminent, risque de fonte)
+
+Dans le modele : contribue a 2.8% de l'importance. La temperature seule
+n'est pas un bon predicteur de defaut car elle depend beaucoup des
+conditions ambiantes. Elle devient significative combinee avec une
+vibration elevee.
+
+
+COLONNE 2 : Vibration_mm_s
+--------------------------------------------------------------------------------
+Type      : numerique (float)
+Unite     : millimetres par seconde (mm/s) — vitesse vibratoire RMS
+Plage     : 0.51 a 10.00
+Moyenne   : 4.36 mm/s
+Role      : FEATURE (entree du modele) — MEILLEUR PREDICTEUR (95.8%)
+
+Description :
+Vitesse vibratoire mesuree sur le palier du moteur CVC, en mm/s RMS
+(valeur efficace). Mesuree par accelerometre piezoelectrique monte
+sur le roulement avant/arriere.
+
+Interpretation par seuil (norme ISO 10816-3 pour moteurs < 300 kW) :
+  - 0.5-1.8 mm/s : excellent, neuf ou bien entretenu
+  - 1.8-2.8 mm/s : bon, fonctionnement normal
+  - 2.8-4.5 mm/s : acceptable, surveillance requise
+  - 4.5-7.1 mm/s : alarme, planifier intervention sous 2 semaines
+  - > 7.1 mm/s    : danger, arret et inspection immediate
+
+Types de defauts detectables par la vibration :
+  - Desequilibre     : vibration dominante a 1x frequence de rotation
+  - Roulement        : pics a frequences elevees (BPFO, BPFI)
+  - Dalignement     : vibration a 2x frequence de rotation
+  - Desserrage       : harmoniques multiples
+  - Defaut electrique : vibration a frequence ligne (50 Hz) ou ses harmoniques
+
+Dans le modele : 95.8% de l'importance. C'est le predicteur dominant car
+la vibration est le symptome le plus direct et le plus precoce d'un
+defaut mecanique ou electrique sur un moteur.
+
+
+COLONNE 3 : Heures_Fonctionnement
+--------------------------------------------------------------------------------
+Type      : numerique (float)
+Unite     : heures (h)
+Plage     : 131 a 19 967
+Moyenne   : 10 028 h
+Role      : FEATURE (entree du modele)
+
+Description :
+Nombre total d'heures de fonctionnement cumulees par l'equipement
+CVC depuis sa mise en service. Correspond au compteur horaire lu
+sur l'automate BACnet/Modbus ou le regulateur GTB.
+
+Interpretation par tranche :
+  - 0-5 000 h    : equipement recent, usure minimale
+  - 5 000-10 000 h : periode de stabilite, usure progressive
+  - 10 000-15 000 h : zone de vigilance, composants a surveiller
+                    (roulements, courroies, condensateurs)
+  - > 15 000 h   : fin de vie probable, maintenance preventive
+                    recommandee, pieces d'usure a remplacer
+
+Dans le modele : 1.4% de l'importance. Les heures seules ne predissent
+pas bien un defaut car un moteur bien entretenu peut fonctionner plus
+de 20 000 h sans probleme.
+
+
+COLONNE 4 : Age_ans
+--------------------------------------------------------------------------------
+Type      : numerique (float)
+Unite     : annees
+Plage     : 0.0 a 15.0
+Moyenne   : 7.5 ans
+Role      : FEATURE (entree du modele)
+
+Description :
+Age de l'equipement CVC depuis la date d'installation. Utilise pour
+evaluer l'obsolescence et la probabilite de defaut liee au vieillissement
+(corrosion, fatigue materiau, isolement electrique degrade).
+
+Interpretation par tranche :
+  - 0-3 ans   : sous garantie, defaut de fabrication possible
+  - 3-7 ans   : maturite, defauts d'usage normaux
+  - 7-10 ans  : vieillissement, surveillance renforcee
+  - 10-15 ans : obsolescence, remplacement a planifier
+  - > 12 ans  : probabilite de defaut augmente (isolement, corrosion)
+
+Dans le modele : 0% d'importance. L'age seul ne predit pas un defaut
+car un equipement bien maintenu peut etre fiable meme vieux. L'age est
+plus un indicateur de risque global que de defaut imminent.
+
+
+COLONNE 5 : Etat
+--------------------------------------------------------------------------------
+Type      : numerique (entier 0 ou 1)
+Valeurs   : 0 = Normal, 1 = Defaut
+Repartition : 387 Normal (48.4%), 413 Defaut (51.6%)
+Role      : CIBLE (variable a predire) — classification binaire
+
+Description :
+Etat de l'equipement CVC au moment de la mesure. Un etat "Defaut" (1)
+signifie qu'un probleme a ete identifie et necessite une intervention
+de maintenance (corrective ou preventive).
+
+Logique de classification dans le dataset :
+  - Defaut (1) si vibration > 3.5 mm/s (seuil ISO alarme)
+  - Defaut (1) si vibration > 2.5 mm/s ET temperature > 55 °C
+  - Defaut (1) si age > 12 ans (obsolescence)
+  - 5% de bruit (erreurs de classification realistes)
+
+
+COLONNE 6 : Type_Defaut
+--------------------------------------------------------------------------------
+Type      : numerique (entier 0, 1, 2 ou 3)
+Valeurs   : 0 = Normal, 1 = Desequilibre, 2 = Roulement, 3 = Electrique
+Repartition : 0=387, 1=80, 2=280, 3=53
+Role      : SOUS-CLASSIFICATION (utilisable pour classification multi-classes)
+
+Description :
+Sous-type de defaut, determine par les caracteristiques du signal vibratoire
+et de la temperature. Permet d'orienter le technicien sur le type
+d'intervention a realiser.
+
+Types detailles :
+  0 - Normal        : Pas de defaut detecte, equipement en bon etat
+  1 - Desequilibre  : Vibration elevee sans surchauffe
+                     Cause : masse desequilibre sur roue, courroie tendue,
+                     accouplement mal aligne
+                     Remede : equilibrage dynamique, alignement laser
+  2 - Roulement     : Vibration elevee + surchauffe
+                     Cause : degradation roulement (billes, chemins, cage)
+                     Remede : remplacement roulement avant casse
+  3 - Electrique    : Surchauffe sans vibration elevee
+                     Cause : condensateur HS, enroulement partiel,
+                     surtension, harmoniques
+                     Remede : verification electrique, remplacement
+                     condensateur ou moteur
+
+
+================================================================================
+RESUME DU MODELE RANDOM FOREST ENTRAINE
+================================================================================
+Algorithme       : TreeBagger (Random Forest), 100 arbres, MinLeafSize=5
+Dataset train    : 640 observations (80%)
+Dataset test     : 160 observations (20%)
+
+Performance test :
+  Accuracy       : 94.38%
+  Precision      : 93.98%
+  Recall         : 95.12%
+  F1-Score       : 94.55%
+  Specificite    : 93.59%
+
+Feature importance (permutation) :
+  Vibration_mm_s : 95.8%  ← PREDICTEUR DOMINANT
+  Temperature_C  : 2.8%
+  Heures_Fonc     : 1.4%
+  Age_ans         : 0.0%
+
+Conclusion pratique :
+  La vibration est le meilleur indicateur de defaut moteur CVC.
+  Un technicien avec un vibrometre peut predire 94% des pannes.
+  La temperature est un indicateur secondaire (surchauffe confirmee).
+  L'age et les heures sont des facteurs de risque long terme mais
+  ne predisent pas un defaut imminent.
+================================================================================
