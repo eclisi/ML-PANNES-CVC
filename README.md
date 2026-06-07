@@ -1,6 +1,6 @@
 # ML-PANNES-CVC
 
-**Auteur : Jimmy SAMBIN**
+**Auteur : Jimmy SAMBIN** | Ingenieur en automatisme
 
 ## Anticiper les pannes CVC avant qu'elles ne surviennent
 
